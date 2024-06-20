@@ -69,9 +69,9 @@ public class GameSession : MonoBehaviour
         SceneManager.LoadScene(0);
         levelManager.LoadGameOver();
         Destroy(gameObject);
-        
-
-        
-        
+    }
+    public void clearGameSession()
+    {
+        Destroy(gameObject);
     }
 }
