@@ -33,8 +33,8 @@ public class GameSession : MonoBehaviour
 
     void Start() 
     {
-        livesText.text = playerLives.ToString();
-        scoreText.text = score.ToString();    
+        livesText.text = "Lives: " + playerLives;
+        scoreText.text = "Score: " + score;
     }
 
     public void ProcessPlayerDeath()
@@ -52,7 +52,7 @@ public class GameSession : MonoBehaviour
     public void AddToScore(int pointsToAdd)
     {
         score += pointsToAdd;
-        scoreText.text = score.ToString(); 
+        scoreText.text = "Score: " + score;
     }
 
     void TakeLife()
@@ -60,7 +60,7 @@ public class GameSession : MonoBehaviour
         playerLives--;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
-        livesText.text = playerLives.ToString();
+        livesText.text = "Lives: " + playerLives;
     }
 
     void ResetGameSession()

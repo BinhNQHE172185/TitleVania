@@ -42,9 +42,14 @@ public class PlayerMovement : MonoBehaviour
     void OnFire(InputValue value)
     {
         if (!isAlive) { return; }
-        Instantiate(bullet, gun.position, transform.rotation);
+        GameObject bulletInstance = Instantiate(bullet, gun.position, Quaternion.identity);
+        // Maintain the original scale of the bullet
+        Vector3 originalScale = bulletInstance.transform.localScale;
+
+        // Flip the bullet to match the shooter's direction
+        bulletInstance.transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * Mathf.Sign(transform.localScale.x), originalScale.y, originalScale.z);
     }
-    
+
     void OnMove(InputValue value)
     {
         if (!isAlive) { return; }
