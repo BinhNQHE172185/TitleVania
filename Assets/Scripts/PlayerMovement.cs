@@ -89,8 +89,10 @@ public class PlayerMovement : MonoBehaviour
         {
             // Start charging
             isCharging = true;
+            canShoot = false;
             chargeStartTime = Time.time;
             myAnimator.SetBool("isCharging", true);
+            myAnimator.SetBool("canShoot", false);
             Debug.Log("Charging started");
         }
         else
@@ -125,9 +127,9 @@ public class PlayerMovement : MonoBehaviour
 
             // Reset the charging state
             isCharging = false;
-            canShoot = false;
+            //canShoot = false;
             myAnimator.SetBool("isCharging", false);
-            myAnimator.SetBool("canShoot", false);
+            //myAnimator.SetBool("canShoot", false);
             Debug.Log("Reset charging state");
         }
     }
