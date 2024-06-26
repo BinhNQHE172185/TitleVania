@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
@@ -11,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(10f, 10f);
     [SerializeField] GameObject bullet;
+    [SerializeField] GameObject body;
+    [SerializeField] GameObject climbPlatform;
     [SerializeField] Transform gun;
     [SerializeField] HealthBarAction healthBarAction;
     [SerializeField] float knockbackDuration = 0.3f; // Duration of the knockback effect
@@ -18,16 +21,18 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 moveInput;
     Rigidbody2D myRigidbody;
+    Rigidbody2D climbPlatformRigidBody;
     Animator myAnimator;
     CapsuleCollider2D myBodyCollider;
     BoxCollider2D myFeetCollider;
     float gravityScaleAtStart;
     InputHandler playerInputHandler;
-    [SerializeField] GameObject body;
+
 
     bool isCharging = false;
     bool canShoot = false;
     bool isMoving = false;
+    bool isClimbing = false;
     float chargeStartTime = 0f;
     const float chargeTime = 0.5f;
     float HP = 1000;
@@ -47,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
         gravityScaleAtStart = myRigidbody.gravityScale;
         playerInputHandler = InputHandler.Instance;
         RemainingHP = HP;
+        climbPlatformRigidBody = climbPlatform.GetComponent<Rigidbody2D>();
+        climbPlatform.SetActive(true);
     }
 
     void Update()
@@ -54,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isAlive) { return; }
         Run();
         FlipSprite();
-        ClimbLadder();
+        MovePlatform();
         CollideCheck();
         OnFire();
     }
@@ -127,9 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
             // Reset the charging state
             isCharging = false;
-            //canShoot = false;
             myAnimator.SetBool("isCharging", false);
-            //myAnimator.SetBool("canShoot", false);
             Debug.Log("Reset charging state");
         }
     }
@@ -143,11 +148,10 @@ public class PlayerMovement : MonoBehaviour
     void OnJump(InputValue value)
     {
         if (!isAlive) { return; }
-        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
-
+        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground","Climbing"))) { return; }
+        
         if (value.isPressed)
         {
-            // do stuff
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
         }
     }
@@ -171,25 +175,64 @@ public class PlayerMovement : MonoBehaviour
             body.transform.localScale = new Vector2(Mathf.Sign(myRigidbody.velocity.x), 1f);
         }
     }
-
-    void ClimbLadder()
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Climbing"))
         {
-            myRigidbody.gravityScale = gravityScaleAtStart;
+            AttachToPlatform(collision);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Climbing"))
+        {
+            DetachFromPlatform();
+        }
+    }
+
+    void AttachToPlatform(Collider2D ladderCollider)
+    {
+        Debug.Log("AttachToPlatform");
+        isClimbing = true;
+        myRigidbody.gravityScale = gravityScaleAtStart;
+        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0f);
+        climbPlatform.SetActive(true);
+        // Set the platform's position based on the center of the ladder collider
+        float playerHeight = myBodyCollider.bounds.extents.y;
+        float platformYPosition = transform.position.y - playerHeight - 0.2f;
+        Bounds ladderBounds = ladderCollider.bounds;
+        float platformXPosition = ladderBounds.center.x;
+
+        climbPlatform.transform.position = new Vector2(platformXPosition, platformYPosition);
+    }
+
+    void DetachFromPlatform()
+    {
+        isClimbing = false;
+        climbPlatform.SetActive(false);
+    }
+    void MovePlatform()
+    {
+        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        {
+            isClimbing = true;
+        }
+        if (!isClimbing)
+        {
             myAnimator.SetBool("isClimbing", false);
             return;
         }
-
-        Vector2 climbVelocity = new Vector2(myRigidbody.velocity.x, moveInput.y * climbSpeed);
-        myRigidbody.velocity = climbVelocity;
-        myRigidbody.gravityScale = 0f;
-
-        bool playerHasVerticalSpeed = Mathf.Abs(myRigidbody.velocity.y) > Mathf.Epsilon;
+        float verticalMove = moveInput.y * climbSpeed;
+        if (climbPlatform.transform.position.y < transform.position.y - 0.8f && verticalMove < 0)
+        {
+            verticalMove = 0; // Prevent downward movement
+        }
+        climbPlatformRigidBody.velocity = new Vector3(0, verticalMove, 0);
+        bool playerHasVerticalSpeed = Mathf.Abs(climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
         myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
         isMoving = playerHasVerticalSpeed;
     }
-
     void CollideCheck()
     {
         if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Hazards")))
