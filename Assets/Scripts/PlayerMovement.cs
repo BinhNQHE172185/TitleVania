@@ -4,11 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 5f;
+    [SerializeField] float dashSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(10f, 10f);
     [SerializeField] GameObject bullet;
@@ -17,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform gun;
     [SerializeField] HealthBarAction healthBarAction;
     [SerializeField] float knockbackDuration = 0.3f; // Duration of the knockback effect
-    [SerializeField] float immunityDuration = 0.8f; // Duration of the immunity after being hit
+    [SerializeField] float takeDMGImmuneTime = 1f;
+    [SerializeField] float dashDMGImmuneTime = 2f;
 
     Vector2 moveInput;
     Rigidbody2D myRigidbody;
@@ -27,18 +30,25 @@ public class PlayerMovement : MonoBehaviour
     BoxCollider2D myFeetCollider;
     float gravityScaleAtStart;
     InputHandler playerInputHandler;
+    private Tilemap ladderTilemap;
 
 
     bool isCharging = false;
     bool canShoot = false;
     bool isMoving = false;
+    bool isDashing = false;
+    [SerializeField]  bool isImmune = false;
     bool isClimbing = false;
+    float dashTimer = 0f;
+    float dashCoolDown = 2f;
+    int dashCount = 2;
+    int dashCountMax = 4;
     float chargeStartTime = 0f;
     const float chargeTime = 0.5f;
     float HP = 1000;
     public float RemainingHP;
 
-    bool isImmune = false; // To track the immunity state
+
 
 
     bool isAlive = true;
@@ -53,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
         playerInputHandler = InputHandler.Instance;
         RemainingHP = HP;
         climbPlatformRigidBody = climbPlatform.GetComponent<Rigidbody2D>();
-        climbPlatform.SetActive(true);
+        climbPlatform.SetActive(false);
+        ladderTilemap = GameObject.FindGameObjectWithTag("Climbing").GetComponent<Tilemap>();
     }
 
     void Update()
@@ -61,8 +72,9 @@ public class PlayerMovement : MonoBehaviour
         if (!isAlive) { return; }
         Run();
         FlipSprite();
-        MovePlatform();
         CollideCheck();
+        MoveLadder();
+        RecoverDash();
         OnFire();
     }
 
@@ -75,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
             canShoot = false;
             myAnimator.SetBool("isCharging", false);
             myAnimator.SetBool("canShoot", false);
-            Debug.Log("Reset charging state");
             return;
         }
 
@@ -100,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
             chargeStartTime = Time.time;
             myAnimator.SetBool("isCharging", true);
             myAnimator.SetBool("canShoot", false);
-            Debug.Log("Charging started");
         }
         else
         {
@@ -112,7 +122,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 canShoot = true;
                 myAnimator.SetBool("canShoot", true);
-                Debug.Log("Charging complete, canShoot = true");
             }
         }
     }
@@ -129,13 +138,11 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 originalScale = bulletInstance.transform.localScale;
                 // Flip the bullet to match the shooter's direction
                 bulletInstance.transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * Mathf.Sign(body.transform.localScale.x), originalScale.y, originalScale.z);
-                Debug.Log("Shot!");
             }
 
             // Reset the charging state
             isCharging = false;
             myAnimator.SetBool("isCharging", false);
-            Debug.Log("Reset charging state");
         }
     }
 
@@ -148,16 +155,63 @@ public class PlayerMovement : MonoBehaviour
     void OnJump(InputValue value)
     {
         if (!isAlive) { return; }
-        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground","Climbing"))) { return; }
-        
+        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing"))) { return; }
+
         if (value.isPressed)
         {
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
         }
     }
+    void OnDash(InputValue value)
+    {
+        Debug.Log("Shifted");
+        if (!isAlive) { return; }
+        if (value.isPressed && dashCount > 0)
+        {
+            Debug.Log("Dashing");
+            isDashing = true;
+
+            myAnimator.SetBool("isDashing", true);
+
+            StartCoroutine(StartImmunity(dashDMGImmuneTime));
+
+            float dashDirection = body.transform.localScale.x > 0 ? 1f : -1f;
+
+            // Apply dash force in the direction
+            myRigidbody.velocity = Vector2.zero;
+            myRigidbody.AddForce(new Vector2(dashSpeed * dashDirection, myRigidbody.velocity.y), ForceMode2D.Impulse);
+            dashCount--;
+
+            Invoke("EndDash", 0.3f);
+        }
+    }
+    void EndDash()
+    {
+        myAnimator.SetBool("isDashing", false);
+        isDashing = false;
+    }
+    void RecoverDash()
+    {
+        if (dashCount < dashCountMax)
+        {
+            // Increment the dash timer
+            dashTimer += Time.deltaTime;
+
+            // If the dash timer exceeds the cooldown period
+            if (dashTimer >= dashCoolDown)
+            {
+                // Increment the dash count
+                dashCount++;
+
+                // Reset the dash timer
+                dashTimer = 0f;
+            }
+        }
+    }
 
     void Run()
     {
+        if (isDashing) { return; }
         Vector2 playerVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.velocity.y);
         myRigidbody.velocity = playerVelocity;
 
@@ -193,18 +247,53 @@ public class PlayerMovement : MonoBehaviour
 
     void AttachToPlatform(Collider2D ladderCollider)
     {
-        Debug.Log("AttachToPlatform");
+        //make player attach to ladder
         isClimbing = true;
         myRigidbody.gravityScale = gravityScaleAtStart;
         myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0f);
         climbPlatform.SetActive(true);
-        // Set the platform's position based on the center of the ladder collider
+        // Get the cell position of the tile the player is colliding with
+        Vector3Int cellPosition = ladderTilemap.WorldToCell(transform.position);
+        // Get the world position of the center of that tile
+        Vector3 tileWorldPosition = ladderTilemap.GetCellCenterWorld(cellPosition);
+
+        // Adjust the platform's position based on the tile's position
         float playerHeight = myBodyCollider.bounds.extents.y;
-        float platformYPosition = transform.position.y - playerHeight - 0.2f;
-        Bounds ladderBounds = ladderCollider.bounds;
-        float platformXPosition = ladderBounds.center.x;
+        float platformYPosition = tileWorldPosition.y - playerHeight - 0.2f;
+        float platformXPosition = tileWorldPosition.x;
 
         climbPlatform.transform.position = new Vector2(platformXPosition, platformYPosition);
+    }
+    void MoveLadder()
+    {
+        if (!isClimbing)
+        {
+            myAnimator.SetBool("isClimbing", false);
+            return;
+        }
+        // Get the cell position of the tile the player is colliding with
+        Vector3Int cellPosition = ladderTilemap.WorldToCell(transform.position);
+        // Get the world position of the center of that tile
+        Vector3 tileWorldPosition = ladderTilemap.GetCellCenterWorld(cellPosition);
+
+        // Adjust the platform's position based on the tile's position
+        float platformXPosition = tileWorldPosition.x;
+        float verticalMove = moveInput.y * climbSpeed;
+
+        climbPlatformRigidBody.velocity = new Vector3(0, verticalMove, 0);
+        bool playerHasVerticalSpeed = Mathf.Abs(climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
+        myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
+        isMoving = playerHasVerticalSpeed;
+        //maintain platform horizonal position
+        if (climbPlatform.transform.position.y <= transform.position.y - 1f)
+        {
+            // Prevent downward movement
+            climbPlatform.transform.position = new Vector2(platformXPosition, transform.position.y - 1f);
+        }
+        else
+        {
+            climbPlatform.transform.position = new Vector2(platformXPosition, climbPlatform.transform.position.y);
+        }
     }
 
     void DetachFromPlatform()
@@ -212,32 +301,13 @@ public class PlayerMovement : MonoBehaviour
         isClimbing = false;
         climbPlatform.SetActive(false);
     }
-    void MovePlatform()
-    {
-        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
-        {
-            isClimbing = true;
-        }
-        if (!isClimbing)
-        {
-            myAnimator.SetBool("isClimbing", false);
-            return;
-        }
-        float verticalMove = moveInput.y * climbSpeed;
-        if (climbPlatform.transform.position.y < transform.position.y - 0.8f && verticalMove < 0)
-        {
-            verticalMove = 0; // Prevent downward movement
-        }
-        climbPlatformRigidBody.velocity = new Vector3(0, verticalMove, 0);
-        bool playerHasVerticalSpeed = Mathf.Abs(climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
-        myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
-        isMoving = playerHasVerticalSpeed;
-    }
     void CollideCheck()
     {
+        if (isImmune) { Debug.Log("Immuned"); return; }
+
         if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Hazards")))
         {
-            TakeDamage(200,1);
+            TakeDamage(200, 1);
             Debug.Log("Hit " + RemainingHP);
         }
         else if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
@@ -248,9 +318,10 @@ public class PlayerMovement : MonoBehaviour
     }
     public void TakeDamage(float damage, float forceScale)
     {
+
         RemainingHP -= damage;
         ApplyKnockback(forceScale); // Apply knockback effect
-        StartCoroutine(StartImmunity()); // Start immunity timer
+        StartCoroutine(StartImmunity(takeDMGImmuneTime));
         if (RemainingHP <= 0)
         {
             UpdateHP();
@@ -267,13 +338,11 @@ public class PlayerMovement : MonoBehaviour
         myRigidbody.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * deathKick.x, deathKick.y * scale);
     }
 
-    private IEnumerator StartImmunity()
+    private IEnumerator StartImmunity(float duration)
     {
-        isImmune = true; // Set immunity to true
-        myBodyCollider.enabled = false; // Disable the collider to make the player immune to further collisions
-        yield return new WaitForSeconds(immunityDuration); // Wait for the immunity duration
-        myBodyCollider.enabled = true; // Re-enable the collider
-        isImmune = false; // Reset immunity state
+        isImmune = true; // Enable immunity
+        yield return new WaitForSeconds(duration); // Wait for the duration
+        isImmune = false; // Disable immunity
     }
     public void UpdateHP()
     {
