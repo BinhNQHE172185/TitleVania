@@ -6,6 +6,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float bulletSpeed = 20f;
+    [SerializeField] float knockbackForce = 10f;
+    [SerializeField] float bulletDmg = 500f;
     [SerializeField] ParticleSystem explodeParticle;
     [SerializeField] ParticleSystem trailParticle;
 
@@ -24,20 +26,24 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        myRigidbody.velocity = new Vector2 (xSpeed, 0f);
+        myRigidbody.velocity = new Vector2(xSpeed, 0f);
     }
 
-    void OnTriggerEnter2D(Collider2D other) 
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if(other.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            // Apply knockback force to the enemy
+            Rigidbody2D enemyRigidbody = collision.collider.GetComponent<Rigidbody2D>();
+            if (enemyRigidbody != null)
+            {
+                Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
+                enemyRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+                EnemyMovement enemy = enemyRigidbody.GetComponent<EnemyMovement>();
+                Debug.Log("hit slime");
+                enemy.TakeDamage(bulletDmg);
+            }
         }
-        HandleCollision();
-    }
-
-    void OnCollisionEnter2D(Collision2D other) 
-    {
         HandleCollision();
     }
     void HandleCollision()

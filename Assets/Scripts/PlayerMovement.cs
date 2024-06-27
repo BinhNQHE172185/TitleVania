@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isAlive) { return; }
         Run();
         FlipSprite();
-        CollideCheck();
+        //CollideCheck();
         MoveLadder();
         RecoverDash();
         OnFire();
@@ -119,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
             // Update charge duration
             float chargeDuration = Time.time - chargeStartTime;
             chargeBarAction.UpdateChargeBar(chargeDuration, chargeTime);
-            Debug.Log("Charging " + chargeDuration);
 
             if (chargeDuration >= chargeTime)
             {
@@ -158,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
     void OnJump(InputValue value)
     {
         if (!isAlive) { return; }
-        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing"))) { return; }
+        if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Enemies"))) { return; }
 
         if (value.isPressed)
         {
@@ -216,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDashing) { return; }
         Vector2 playerVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.velocity.y);
+
         myRigidbody.velocity = playerVelocity;
 
         bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
@@ -304,6 +304,7 @@ public class PlayerMovement : MonoBehaviour
         isClimbing = false;
         climbPlatform.SetActive(false);
     }
+    /*
     void CollideCheck()
     {
         if (isImmune) { Debug.Log("Immuned"); return; }
@@ -318,12 +319,12 @@ public class PlayerMovement : MonoBehaviour
             TakeDamage(200, 0.5f);
             Debug.Log("Hit " + RemainingHP);
         }
-    }
-    public void TakeDamage(float damage, float forceScale)
+    }*/
+    public void TakeDamage(float damage)
     {
-
+        if (isImmune) { Debug.Log("Immuned"); return; }
         RemainingHP -= damage;
-        ApplyKnockback(forceScale); // Apply knockback effect
+        //ApplyKnockback(5f); // Apply knockback effect
         StartCoroutine(StartImmunity(takeDMGImmuneTime));
         if (RemainingHP <= 0)
         {
