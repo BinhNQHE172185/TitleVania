@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject climbPlatform;
     [SerializeField] Transform gun;
     [SerializeField] HealthBarAction healthBarAction;
+    [SerializeField] ChargeBarAction chargeBarAction;
     [SerializeField] float knockbackDuration = 0.3f; // Duration of the knockback effect
     [SerializeField] float takeDMGImmuneTime = 1f;
     [SerializeField] float dashDMGImmuneTime = 2f;
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
             canShoot = false;
             myAnimator.SetBool("isCharging", false);
             myAnimator.SetBool("canShoot", false);
+            chargeBarAction.ClearChargeBar();
             return;
         }
 
@@ -116,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Update charge duration
             float chargeDuration = Time.time - chargeStartTime;
+            chargeBarAction.UpdateChargeBar(chargeDuration, chargeTime);
             Debug.Log("Charging " + chargeDuration);
 
             if (chargeDuration >= chargeTime)
@@ -139,9 +142,9 @@ public class PlayerMovement : MonoBehaviour
                 // Flip the bullet to match the shooter's direction
                 bulletInstance.transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * Mathf.Sign(body.transform.localScale.x), originalScale.y, originalScale.z);
             }
-
             // Reset the charging state
             isCharging = false;
+            chargeBarAction.ClearChargeBar();
             myAnimator.SetBool("isCharging", false);
         }
     }
@@ -283,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         climbPlatformRigidBody.velocity = new Vector3(0, verticalMove, 0);
         bool playerHasVerticalSpeed = Mathf.Abs(climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
         myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
-        isMoving = playerHasVerticalSpeed;
+        //isMoving = playerHasVerticalSpeed;
         //maintain platform horizonal position
         if (climbPlatform.transform.position.y <= transform.position.y - 1f)
         {
