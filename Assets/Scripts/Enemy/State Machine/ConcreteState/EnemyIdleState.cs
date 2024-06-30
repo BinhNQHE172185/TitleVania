@@ -17,7 +17,6 @@ public class EnemyIdleState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-        enemy.FaceForward();
     }
     public override void ExitState()
     {
@@ -42,6 +41,8 @@ public class EnemyIdleState : EnemyState
             enemy.FlipEnemyFacing();
         }
         enemy.myRigidbody.velocity = new Vector2(enemy.moveSpeed, enemy.myRigidbody.velocity.y);
+        enemy.FaceForward();
+
     }
 
     public override void OnTriggerExit2D(Collider2D other)
