@@ -37,6 +37,7 @@ public class PlayerIdleState : PlayerState
         {
             player.stateMachine.ChangeState(player.climbState);
         }
+        else { player.climbPlatform.SetActive(false); }
     }
 
     public override void OnCollisionEnter2D(Collision2D collision)

@@ -10,7 +10,7 @@ public class Ladder : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerScript = player.GetComponent<Player>();;
+        playerScript = player.GetComponent<Player>();
     }
     void OnTriggerEnter2D(Collider2D collision)
     {

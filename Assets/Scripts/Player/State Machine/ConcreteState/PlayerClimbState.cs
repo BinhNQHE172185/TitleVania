@@ -6,6 +6,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerClimbState : PlayerState
 {
+    bool playerHasVerticalSpeed = false;
     public PlayerClimbState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
     }
@@ -103,7 +104,7 @@ public class PlayerClimbState : PlayerState
         float verticalMove = player.moveInput.y * player.climbSpeed;
 
         player.climbPlatformRigidBody.velocity = new Vector3(0, verticalMove, 0);
-        bool playerHasVerticalSpeed = Mathf.Abs(player.climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
+        playerHasVerticalSpeed = Mathf.Abs(player.climbPlatformRigidBody.velocity.y) > Mathf.Epsilon;
         player.myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
         //isMoving = playerHasVerticalSpeed;
         //maintain platform horizonal position
@@ -136,14 +137,11 @@ public class PlayerClimbState : PlayerState
             {
                 player.myRigidbody.velocity += new Vector2(0f, player.jumpSpeed);
             }
-            else
-            {
-                player.stateMachine.ChangeState(player.moveState);
-            }
         }
-        else
+        if (!player.isGrounded && !playerHasVerticalSpeed)
         {
             player.UpdateAirborne();
         }
+
     }
 }

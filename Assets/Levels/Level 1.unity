@@ -939,17 +939,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1589375464597577360, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1589375464597577366, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.07
+      value: -4.59
       objectReference: {fileID: 0}
     - target: {fileID: 1589375464597577366, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.54
+      value: 9.13
       objectReference: {fileID: 0}
     - target: {fileID: 1589375464597577366, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
       propertyPath: m_LocalPosition.z
@@ -987,30 +983,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goober (Enemy)
       objectReference: {fileID: 0}
-    - target: {fileID: 1589375464597577373, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3706127371001675440, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 3706127371001675440, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.02
-      objectReference: {fileID: 0}
     - target: {fileID: 8289153853485312831, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1020064656}
-    - target: {fileID: 8441791749010567547, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: <detectionRange>k__BackingField
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8441791749010567547, guid: 2614299fd821ab44eb7162dbf0834744, type: 3}
-      propertyPath: <knockbackForce>k__BackingField
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2303,11 +2279,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &405971666 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 559544189432440646, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-  m_PrefabInstance: {fileID: 559544189467131994}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &406948960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2776,22 +2747,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6229391455672694950, guid: 29cf7c4aab48b704aab0064e05495a46, type: 3}
   m_PrefabInstance: {fileID: 1256962214}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &722219107 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8117014289219797456, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-  m_PrefabInstance: {fileID: 559544189467131994}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8903934466abf0a4f8c5c39e8d8dc733, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &739592407 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6847005739859954167, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-  m_PrefabInstance: {fileID: 559544189467131994}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &794212017 stripped
 Transform:
@@ -32959,32 +32914,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 559544189432440645, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
   m_PrefabInstance: {fileID: 559544189467131994}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1320068062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405971666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c667165d5ab3d4f498311a86c928b2cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <runSpeed>k__BackingField: 10
-  <jumpSpeed>k__BackingField: 20
-  <dashSpeed>k__BackingField: 12
-  <climbSpeed>k__BackingField: 5
-  <hurtDuration>k__BackingField: 0.5
-  <bullet>k__BackingField: {fileID: 5450244551410949440, guid: 36191fa3857d39b428471cae03732f9f, type: 3}
-  <body>k__BackingField: {fileID: 1716582925}
-  <climbPlatform>k__BackingField: {fileID: 385095734}
-  <gun>k__BackingField: {fileID: 739592407}
-  <healthBarAction>k__BackingField: {fileID: 722219107}
-  <chargeBarAction>k__BackingField: {fileID: 1391991114}
-  <knockbackDuration>k__BackingField: 0.3
-  <takeDMGImmuneTime>k__BackingField: 1
-  <dashDMGImmuneTime>k__BackingField: 2
 --- !u!1 &1349605813
 GameObject:
   m_ObjectHideFlags: 0
@@ -33067,22 +32996,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1391991114 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4486748874723792547, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-  m_PrefabInstance: {fileID: 559544189467131994}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb9b15df34997fe47bb4eaa7e6c6d5d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1716582925 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2426170255110136324, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-  m_PrefabInstance: {fileID: 559544189467131994}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1741860882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6229391455672694950, guid: 29cf7c4aab48b704aab0064e05495a46, type: 3}
@@ -33463,8 +33376,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.34960008, y: -0.5933, z: 0}
-    m_Extent: {x: 2.6833, y: 1.5122, z: 0}
+    m_Center: {x: 0.34969997, y: -0.59265, z: 0}
+    m_Extent: {x: 2.6831, y: 1.51215, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -33728,34 +33641,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ginger (Player)
       objectReference: {fileID: 0}
-    - target: {fileID: 2631773049785510294, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5151869573568463848, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5623959111220081405, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      propertyPath: climbPlatform
+    - target: {fileID: 2277074159568153750, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
+      propertyPath: <climbPlatform>k__BackingField
       value: 
       objectReference: {fileID: 385095734}
-    - target: {fileID: 6987328839990031362, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      propertyPath: m_LinearDrag
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6987328839990031362, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      propertyPath: m_AngularDrag
-      value: 0.5
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5623959111220081405, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 559544189432440646, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1320068062}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03a81cb5a0b83d74cba6779d68f6527e, type: 3}
 --- !u!1 &654424255078617248
 GameObject:

@@ -25,6 +25,11 @@ public class PlayerJumpState : PlayerState
 
     public override void FixedUpdate()
     {
+        if (player.isClimbing)
+        {
+            player.stateMachine.ChangeState(player.climbState);
+        }
+        else { player.climbPlatform.SetActive(false); }
         Run();
         Jump();
     }

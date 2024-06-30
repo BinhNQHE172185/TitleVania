@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9104814243638410724}
   - component: {fileID: 6987328839990031362}
   - component: {fileID: 5151869573568463848}
-  - component: {fileID: 5623959111220081405}
   - component: {fileID: 2631773049785510294}
   - component: {fileID: 2223826244118251622}
+  - component: {fileID: 2277074159568153750}
   m_Layer: 8
   m_Name: Ginger (Player)
   m_TagString: Player
@@ -92,8 +92,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 0.5
+  m_AngularDrag: 0.5
   m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -141,7 +141,7 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5623959111220081405}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: OnFire
         m_Mode: 0
@@ -208,34 +208,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &5623959111220081405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559544189432440646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 322b4c172cd1c924f9f733ad7e4be473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runSpeed: 7
-  jumpSpeed: 20
-  dashSpeed: 13
-  climbSpeed: 5
-  deathKick: {x: 20, y: 20}
-  bullet: {fileID: 5450244551410949440, guid: 36191fa3857d39b428471cae03732f9f, type: 3}
-  body: {fileID: 2426170255110136324}
-  climbPlatform: {fileID: 0}
-  gun: {fileID: 6847005739859954167}
-  healthBarAction: {fileID: 8117014289219797456}
-  chargeBarAction: {fileID: 4486748874723792547}
-  knockbackDuration: 0.3
-  takeDMGImmuneTime: 1
-  dashDMGImmuneTime: 0.5
-  isImmune: 0
-  RemainingHP: 0
 --- !u!61 &2631773049785510294
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -265,7 +237,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0281744, y: -0.4517839}
@@ -294,6 +266,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControls: {fileID: -944628639613478452, guid: e71af304375020943b9de6ba2818fe77, type: 3}
+--- !u!114 &2277074159568153750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559544189432440646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c667165d5ab3d4f498311a86c928b2cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <runSpeed>k__BackingField: 10
+  <jumpSpeed>k__BackingField: 20
+  <dashSpeed>k__BackingField: 12
+  <climbSpeed>k__BackingField: 5
+  <hurtDuration>k__BackingField: 0.5
+  <bullet>k__BackingField: {fileID: 5450244551410949440, guid: 36191fa3857d39b428471cae03732f9f, type: 3}
+  <body>k__BackingField: {fileID: 2426170255110136324}
+  <climbPlatform>k__BackingField: {fileID: 0}
+  <gun>k__BackingField: {fileID: 6847005739859954167}
+  <healthBarAction>k__BackingField: {fileID: 8117014289219797456}
+  <chargeBarAction>k__BackingField: {fileID: 4486748874723792547}
+  <knockbackDuration>k__BackingField: 0.3
+  <takeDMGImmuneTime>k__BackingField: 1
+  <dashDMGImmuneTime>k__BackingField: 2
 --- !u!1 &1226033086733453939
 GameObject:
   m_ObjectHideFlags: 0

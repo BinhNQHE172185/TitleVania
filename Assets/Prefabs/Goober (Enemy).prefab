@@ -148,8 +148,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.00025001168, y: -0.00025001168, z: 0}
-    m_Extent: {x: 0.55955005, y: 0.55955005, z: 0}
+    m_Center: {x: 0.00044998527, y: 0.00009998679, z: 0}
+    m_Extent: {x: 0.55974996, y: 0.5602, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -309,7 +309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HP>k__BackingField: 1000
   <damage>k__BackingField: 100
-  <knockbackForce>k__BackingField: 100
+  <knockbackForce>k__BackingField: 10
+  <hurtDuration>k__BackingField: 0.5
   <healthBarAction>k__BackingField: {fileID: 7067519236573112808}
   <moveSpeed>k__BackingField: 2
   <jumpForce>k__BackingField: 26
@@ -387,8 +388,8 @@ Transform:
   m_GameObject: {fileID: 2592418464389950897}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.02, y: 0, z: 0}
+  m_LocalScale: {x: 0.41, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1589375464597577366}
