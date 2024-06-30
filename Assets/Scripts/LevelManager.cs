@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
 {
     public void LoadGame()
     {
+        // Resume the game
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Level 1");
     }
     public void LoadMainMenu()

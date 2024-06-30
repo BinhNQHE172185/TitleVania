@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Diagnostics;
 
 public class GameSession : MonoBehaviour
 {
     [SerializeField] int playerLives = 3;
     [SerializeField] int score = 0;
-
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] TextMeshProUGUI scoreText;
     LevelManager levelManager;
@@ -31,7 +31,7 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    void Start() 
+    void Start()
     {
         livesText.text = "Lives: " + playerLives;
         scoreText.text = "Score: " + score;
