@@ -32,6 +32,11 @@ public class PlayerMoveState : PlayerState
         {
             player.stateMachine.ChangeState(player.climbState);
         }
+        if (!player.isGrounded)
+        {
+            player.UpdateAirborne();
+        }
+        else player.myAnimator.speed = 1;
         Run();
     }
 

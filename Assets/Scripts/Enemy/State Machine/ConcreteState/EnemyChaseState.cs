@@ -36,7 +36,7 @@ public class EnemyChaseState : EnemyState
         enemy.FacePlayer(directionToPlayer);
         if (canJump)
         {
-            if (enemy.myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+            if (enemy.isGrounded)
             {
                 Vector2 jumpDirection = new Vector2(directionToPlayer.x * enemy.moveSpeed * 5, 15f).normalized;
                 enemy.myRigidbody.velocity = jumpDirection * enemy.jumpForce;
@@ -53,6 +53,7 @@ public class EnemyChaseState : EnemyState
             }
             enemy.myRigidbody.velocity = new Vector2(directionToPlayer.x * enemy.moveSpeed, enemy.myRigidbody.velocity.y);
         }
+
     }
 
     public override void Update()
@@ -68,4 +69,5 @@ public class EnemyChaseState : EnemyState
         base.OnCollisionEnter2D(collision);
         enemy.DealDamage(collision, enemy.damage, enemy.knockbackForce);
     }
+
 }

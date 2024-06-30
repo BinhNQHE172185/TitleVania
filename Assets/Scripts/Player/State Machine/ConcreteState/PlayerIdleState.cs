@@ -28,6 +28,11 @@ public class PlayerIdleState : PlayerState
     {
         base.FixedUpdate();
         player.myRigidbody.velocity = new Vector2(0,player.myRigidbody.velocity.y);//avoid sliding
+        if (!player.isGrounded)
+        {
+            player.UpdateAirborne();
+        }
+        else player.myAnimator.speed = 1;
         if (player.isClimbing)
         {
             player.stateMachine.ChangeState(player.climbState);

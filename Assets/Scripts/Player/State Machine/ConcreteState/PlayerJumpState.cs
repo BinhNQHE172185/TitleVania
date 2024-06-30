@@ -8,6 +8,7 @@ public class PlayerJumpState : PlayerState
     public PlayerJumpState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
     }
+
     public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
     {
     }
@@ -18,6 +19,7 @@ public class PlayerJumpState : PlayerState
 
     public override void ExitState()
     {
+        player.myAnimator.speed = 1;
         player.myAnimator.SetBool("isRunning", false);
     }
 
@@ -66,6 +68,7 @@ public class PlayerJumpState : PlayerState
     public override void Update()
     {
     }
+
     void Run()
     {
         Vector2 playerVelocity = new Vector2(player.moveInput.x * player.runSpeed, player.myRigidbody.velocity.y);
@@ -76,18 +79,12 @@ public class PlayerJumpState : PlayerState
         player.isMoving = playerHasHorizontalSpeed;
         player.myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
     }
+
     void Jump()
     {
-        if (player.myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climb Platform", "Enemies")))
+        if (player.isGrounded)
         {
-            player.isGrounded = true;
-        }
-        else
-        {
-            player.isGrounded = false;
-        }
-        if (player.isGrounded == true)
-        {
+            player.myAnimator.speed = 1;
             if (player.playerInputHandler.jumpTriggered)
             {
                 player.myRigidbody.velocity += new Vector2(0f, player.jumpSpeed);
@@ -97,5 +94,11 @@ public class PlayerJumpState : PlayerState
                 player.stateMachine.ChangeState(player.moveState);
             }
         }
+        else
+        {
+            player.UpdateAirborne();
+        }
     }
+
+
 }

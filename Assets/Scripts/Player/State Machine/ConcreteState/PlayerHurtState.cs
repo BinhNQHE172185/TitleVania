@@ -32,6 +32,11 @@ public class PlayerHurtState : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (!player.isGrounded)
+        {
+            player.UpdateAirborne();
+        }
+        else player.myAnimator.speed = 1;
 
     }
 

@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable, ITriggerAggroChec
     public bool IsAggroed { get; set; }
     public bool IsInRange { get; set; }
     public bool IsOutsideOfEdge { get; set; }
+    public bool isGrounded { get; set; }
 
     void Awake()
     {
@@ -66,6 +67,24 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable, ITriggerAggroChec
     void FixedUpdate()
     {
         stateMachine.CurrentEnemyState.FixedUpdate();
+        isGrounded = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        if (!isGrounded)
+        {
+            UpdateAirborne();
+        }
+        else { myAnimator.speed = 1; }
+    }
+    void UpdateAirborne()
+    {
+        // Adjust the animation based on the enemy's movement speed
+        float time = Map(myRigidbody.velocity.y, jumpForce, -jumpForce, 0, 1, true);
+        myAnimator.Play("Goober Jump", 0, time);
+        myAnimator.speed = 0;
+    }
+    public static float Map(float value, float min1, float max1, float min2, float max2, bool clamp = false)
+    {
+        float val = min2 + (max2 - min2) * ((value - min1) / (max1 - min1));
+        return clamp ? Mathf.Clamp(val, Mathf.Min(min2, max2), Mathf.Max(min2, max2)) : val;
     }
     public void Die()
     {

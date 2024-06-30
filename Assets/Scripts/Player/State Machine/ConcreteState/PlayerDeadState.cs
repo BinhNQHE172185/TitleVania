@@ -30,6 +30,16 @@ public class PlayerDeadState : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        player.myRigidbody.velocity = new Vector2(0, player.myRigidbody.velocity.y);//avoid sliding
+        if (!player.isGrounded)
+        {
+            player.UpdateAirborne();
+        }
+        else
+        {
+            player.myAnimator.speed = 1;
+            player.myAnimator.SetTrigger("Dying");
+        }
     }
 
     public override void OnCollisionEnter2D(Collision2D collision)

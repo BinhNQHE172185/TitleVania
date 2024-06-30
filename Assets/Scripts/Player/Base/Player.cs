@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
     public bool isCharging { get; set; } = false;
     public bool canShoot { get; set; } = false;
     public bool isMoving { get; set; } = false;
-    [field: SerializeField] public bool isGrounded { get; set; } = true;
+    public bool isGrounded { get; set; } = true;
     public bool isDashing { get; set; } = false;
     public bool isImmune { get; set; } = false;
     public bool isClimbing { get; set; } = false;
@@ -112,17 +112,14 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        /*
-        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climbing", "Enemies")))
+        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climb Platform", "Enemies")))
         {
-
-            player.stateMachine.ChangeState(moveState);
+            isGrounded = true;
         }
         else
         {
-            player.isGrounded = false;
+            isGrounded = false;
         }
-        */
         stateMachine.CurrentPlayerState.FixedUpdate();
     }
     public void TakeDamage(float damage)
@@ -197,5 +194,18 @@ public class Player : MonoBehaviour
         {
             body.transform.localScale = new Vector2(Mathf.Sign(moveInput.x), 1f);
         }
+    }
+    public void UpdateAirborne()
+    {
+        // Seek the animator to the frame based on our y velocity
+        float time = Map(myRigidbody.velocity.y, jumpSpeed, -jumpSpeed, 0, 1, true);
+        myAnimator.Play("Jump", 0, time);
+        myAnimator.speed = 0;
+    }
+
+    public static float Map(float value, float min1, float max1, float min2, float max2, bool clamp = false)
+    {
+        float val = min2 + (max2 - min2) * ((value - min1) / (max1 - min1));
+        return clamp ? Mathf.Clamp(val, Mathf.Min(min2, max2), Mathf.Max(min2, max2)) : val;
     }
 }

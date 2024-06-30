@@ -129,20 +129,21 @@ public class PlayerClimbState : PlayerState
     }
     void Jump()
     {
-        if (player.myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climb Platform", "Enemies")))
+        if (player.isGrounded)
         {
-            player.isGrounded = true;
-        }
-        else
-        {
-            player.isGrounded = false;
-        }
-        if (player.isGrounded == true)
-        {
+            player.myAnimator.speed = 1;
             if (player.playerInputHandler.jumpTriggered)
             {
                 player.myRigidbody.velocity += new Vector2(0f, player.jumpSpeed);
             }
+            else
+            {
+                player.stateMachine.ChangeState(player.moveState);
+            }
+        }
+        else
+        {
+            player.UpdateAirborne();
         }
     }
 }

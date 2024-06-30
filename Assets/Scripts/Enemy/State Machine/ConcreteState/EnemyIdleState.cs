@@ -55,4 +55,5 @@ public class EnemyIdleState : EnemyState
         base.OnCollisionEnter2D(collision);
         enemy.DealDamage(collision, enemy.damage, enemy.knockbackForce);
     }
+
 }
