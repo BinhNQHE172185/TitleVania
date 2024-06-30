@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
     {
         myRigidbody.velocity = new Vector2(xSpeed, 0f);
     }
-
+    /*
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Enemy"))
@@ -40,6 +40,24 @@ public class Bullet : MonoBehaviour
                 Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
                 enemyRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
                 EnemyMovement enemy = enemyRigidbody.GetComponent<EnemyMovement>();
+                Debug.Log("hit slime");
+                enemy.TakeDamage(bulletDmg);
+            }
+        }
+        HandleCollision();
+    }*/
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            // Apply knockback force to the enemy
+            Rigidbody2D enemyRigidbody = collision.collider.GetComponent<Rigidbody2D>();
+            if (enemyRigidbody != null)
+            {
+                Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
+                enemyRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+                enemyRigidbody.AddForce(Vector2.up * knockbackForce, ForceMode2D.Impulse);
+                Enemy enemy = enemyRigidbody.GetComponent<Enemy>();
                 Debug.Log("hit slime");
                 enemy.TakeDamage(bulletDmg);
             }

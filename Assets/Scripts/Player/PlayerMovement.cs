@@ -34,11 +34,14 @@ public class PlayerMovement : MonoBehaviour
     private Tilemap ladderTilemap;
 
 
+    enum PlayerState { Idle, Run, Charge, Dash, Hurt }
+    PlayerState currentState = PlayerState.Idle;
+
     bool isCharging = false;
     bool canShoot = false;
     bool isMoving = false;
     bool isDashing = false;
-    [SerializeField]  bool isImmune = false;
+    [SerializeField] bool isImmune = false;
     bool isClimbing = false;
     float dashTimer = 0f;
     float dashCoolDown = 2f;
@@ -319,7 +322,8 @@ public class PlayerMovement : MonoBehaviour
             TakeDamage(200, 0.5f);
             Debug.Log("Hit " + RemainingHP);
         }
-    }*/
+    }
+    */
     public void TakeDamage(float damage)
     {
         if (isImmune) { Debug.Log("Immuned"); return; }

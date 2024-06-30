@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyState
+{
+    protected Enemy enemy;
+    protected EnemyStateMachine enemyStateMachine;
+
+    public EnemyState(Enemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void Update() { }
+    public virtual void FixedUpdate() { }
+    public virtual void OnTriggerEnter2D(Collider2D other) { }
+    public virtual void OnTriggerExit2D(Collider2D other) { }
+    public virtual void OnCollisionEnter2D(Collision2D collision) { }
+    public virtual void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType) { } 
+}

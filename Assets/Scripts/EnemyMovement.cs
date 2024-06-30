@@ -181,7 +181,7 @@ public class EnemyMovement : MonoBehaviour
             currentState = EnemyState.Idle;
         }
     }
-    public void UpdateHP()
+    void UpdateHP()
     {
         healthBarAction.UpdateHealthBar(RemainingHP, HP);
     }
