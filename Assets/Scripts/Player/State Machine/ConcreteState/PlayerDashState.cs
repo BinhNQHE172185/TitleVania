@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class PlayerDashState : PlayerState
 {
@@ -30,6 +31,8 @@ public class PlayerDashState : PlayerState
         player.myRigidbody.AddForce(new Vector2(player.dashSpeed * dashDirection, player.myRigidbody.velocity.y), ForceMode2D.Impulse);
         player.dashCount--;
         IgnoreEnemyCollisions(true);
+        IgnoreTilemapCollisions(true);
+
     }
 
     public override void ExitState()
@@ -39,6 +42,7 @@ public class PlayerDashState : PlayerState
         player.myRigidbody.gravityScale = player.gravityScaleAtStart;
         player.myAnimator.SetBool("isDashing", false);
         IgnoreEnemyCollisions(false);
+        IgnoreTilemapCollisions(false);
     }
 
     public override void FixedUpdate()
@@ -91,18 +95,53 @@ public class PlayerDashState : PlayerState
     void IgnoreEnemyCollisions(bool ignore)
     {
         // Get all colliders attached to the player
-        Collider2D[] playerColliders = player.GetComponents<Collider2D>();
+        CapsuleCollider2D playerColliders = player.GetComponent<CapsuleCollider2D>();
 
         // Get all enemy colliders in the scene
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
-            Collider2D enemyCollider = enemy.GetComponent<Collider2D>();
-            if (enemyCollider != null)
+            Collider2D[] enemyColliders = enemy.GetComponents<Collider2D>();
+            foreach (var enemyCollider in enemyColliders)
             {
-                foreach (Collider2D playerCollider in playerColliders)
+                if (enemyCollider != null)
                 {
-                    Physics2D.IgnoreCollision(playerCollider, enemyCollider, ignore);
+                    Physics2D.IgnoreCollision(playerColliders, enemyCollider, ignore);
+
+                }
+            }
+
+        }
+    }
+    void IgnoreTilemapCollisions(bool ignore)
+    {
+        // Get the player's collider
+        CapsuleCollider2D playerCollider = player.GetComponent<CapsuleCollider2D>();
+
+        // Layers to ignore collisions with
+        string[] layersToIgnore = new string[] { "Hazards", "Bouncing" };
+
+        foreach (string layerName in layersToIgnore)
+        {
+            int layer = LayerMask.NameToLayer(layerName);
+            if (layer == -1)
+            {
+                Debug.LogWarning($"Layer '{layerName}' not found. Make sure it exists in the project settings.");
+                continue;
+            }
+
+            // Find all Tilemaps with the specified layer
+            Tilemap[] tilemaps = GameObject.FindObjectsOfType<Tilemap>();
+            foreach (Tilemap tilemap in tilemaps)
+            {
+                if (tilemap.gameObject.layer == layer)
+                {
+                    // Get the collider attached to the tilemap
+                    Collider2D tilemapCollider = tilemap.GetComponent<Collider2D>();
+                    if (tilemapCollider != null)
+                    {
+                        Physics2D.IgnoreCollision(playerCollider, tilemapCollider, ignore);
+                    }
                 }
             }
         }

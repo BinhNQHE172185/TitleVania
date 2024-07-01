@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EnemyAggroCheck : MonoBehaviour
 {
-    public GameObject player { get; set; }
+    private Player player { get; set; }
     private Enemy enemy { get; set; }
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = FindObjectOfType<Player>();
         enemy = GetComponentInParent<Enemy>();
         CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
         circleCollider.radius = enemy.detectionRange;
@@ -27,14 +27,14 @@ public class EnemyAggroCheck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject.GetComponent<Player>() != null)
         {
             enemy.SetAggroStatus(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject.GetComponent<Player>() != null)
         {
             enemy.SetAggroStatus(false);
         }

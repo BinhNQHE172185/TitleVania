@@ -5,16 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class Ladder : MonoBehaviour
 {
-    GameObject player;
-    Player playerScript;
+    Player player;
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerScript = player.GetComponent<Player>();
+        player = FindObjectOfType<Player>();
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject.GetComponent<Player>() != null)
         {
             AttachToPlatform(collision);
         }
@@ -22,17 +20,17 @@ public class Ladder : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject.GetComponent<Player>() != null)
         {
             DetachFromPlatform();
         }
     }
     void AttachToPlatform(Collider2D ladderCollider)
     {
-        playerScript.isClimbing = true;
+        player.isClimbing = true;
     }
     void DetachFromPlatform()
     {
-        playerScript.isClimbing = false;
+        player.isClimbing = false;
     }
 }

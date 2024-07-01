@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable, ITriggerAggroChec
     void FixedUpdate()
     {
         stateMachine.CurrentEnemyState.FixedUpdate();
-        isGrounded = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        isGrounded = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Hazards"));
         if (!isGrounded)
         {
             UpdateAirborne();

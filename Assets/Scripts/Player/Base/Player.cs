@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climb Platform", "Enemies")))
+        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground", "Climb Platform", "Enemies", "Hazards")))
         {
             isGrounded = true;
         }
