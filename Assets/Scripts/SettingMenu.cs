@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement; // For managing scenes
 public class SettingMenu : MonoBehaviour
 {
     private bool isOpenSettings = false;
+    private bool clickPause = false;
+
+    [SerializeField]private GameObject ControlPanel;
     // Method to restart the game
     public void Restart()
     {
@@ -35,6 +38,24 @@ public class SettingMenu : MonoBehaviour
             Time.timeScale = 1f;
             gameObject.SetActive(false);
             isOpenSettings = false;
+        }
+    }
+    public void OpenClosePauseButton()
+    {
+        if (!clickPause)
+        {
+            // Pause the game
+            Time.timeScale = 0f;
+            gameObject.SetActive(true);
+            clickPause = true;
+        }
+        else
+        {
+            // Resume the game
+            Time.timeScale = 1f;
+            gameObject.SetActive(false);
+            ControlPanel.SetActive(false);
+            clickPause = false;
         }
     }
 }

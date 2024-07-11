@@ -105,7 +105,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(stateMachine.CurrentPlayerState);
         stateMachine.CurrentPlayerState.Update();
         //FlipSprite();
         RecoverDash();
