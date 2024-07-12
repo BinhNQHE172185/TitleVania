@@ -5,22 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class ControlPanel : MonoBehaviour
 {
-    private bool isOpenSettings = false;
     [SerializeField] private GameObject SettingMenu;
 
-    public void OpenCloseControlSetting()
+    public void OpenControlSetting()
     {
-        if (!isOpenSettings)
-        {
-            gameObject.SetActive(true);
-            SettingMenu.SetActive(false);
-            isOpenSettings = true;
-        }
-        else
-        {
-            gameObject.SetActive(false);
-            SettingMenu.SetActive(true);
-            isOpenSettings = false;
-        }
+        gameObject.SetActive(true);
+        SettingMenu.SetActive(false);
+    }
+    public void CloseControlSetting()
+    {
+        gameObject.SetActive(false);
+        SettingMenu.SetActive(true);
     }
 }

@@ -6,10 +6,7 @@ using UnityEngine.SceneManagement; // For managing scenes
 
 public class SettingMenu : MonoBehaviour
 {
-    private bool isOpenSettings = false;
-    private bool clickPause = false;
-
-    [SerializeField]private GameObject ControlPanel;
+    [SerializeField] private GameObject controlPanel;
     // Method to restart the game
     public void Restart()
     {
@@ -23,39 +20,33 @@ public class SettingMenu : MonoBehaviour
         // Load the scene named "menu" to go back to the main menu
         SceneManager.LoadScene("MainMenu");
     }
+    public void OpenSettings()
+    {
+        // Pause the game
+        Time.timeScale = 0f;
+        gameObject.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        // Resume the game
+        Time.timeScale = 1f;
+        gameObject.SetActive(false);
+        controlPanel.SetActive(false);
+    }
     public void OpenCloseSettings()
     {
-        if (!isOpenSettings)
+        if (!gameObject.activeSelf)
         {
             // Pause the game
             Time.timeScale = 0f;
             gameObject.SetActive(true);
-            isOpenSettings = true;
         }
-        else
+        else  
         {
             // Resume the game
             Time.timeScale = 1f;
             gameObject.SetActive(false);
-            isOpenSettings = false;
-        }
-    }
-    public void OpenClosePauseButton()
-    {
-        if (!clickPause)
-        {
-            // Pause the game
-            Time.timeScale = 0f;
-            gameObject.SetActive(true);
-            clickPause = true;
-        }
-        else
-        {
-            // Resume the game
-            Time.timeScale = 1f;
-            gameObject.SetActive(false);
-            ControlPanel.SetActive(false);
-            clickPause = false;
+            controlPanel.SetActive(false);
         }
     }
 }
