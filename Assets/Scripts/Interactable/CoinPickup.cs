@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class CoinPickup : MonoBehaviour
 {
     [SerializeField] AudioClip coinPickupSFX;
     [SerializeField] int pointsForCoinPickup = 100;
-    
+    [SerializeField] AudioSource AudioSource;
     bool wasCollected = false;
+    AudioManager manager;
+
+    private void Awake()
+    {
+        manager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void OnTriggerEnter2D(Collider2D other) 
     {
@@ -15,7 +22,7 @@ public class CoinPickup : MonoBehaviour
         {
             wasCollected = true;
             FindObjectOfType<GameSession>().AddToScore(pointsForCoinPickup);
-            AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
+            manager.PlaySFX(manager.coin);
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
