@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement; // For managing scenes
 
 public class SettingMenu : MonoBehaviour
 {
-    private bool isOpenSettings = false;
+    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private GameObject volumePanel;
     // Method to restart the game
     public void Restart()
     {
@@ -20,21 +21,35 @@ public class SettingMenu : MonoBehaviour
         // Load the scene named "menu" to go back to the main menu
         SceneManager.LoadScene("MainMenu");
     }
+    public void OpenSettings()
+    {
+        // Pause the game
+        Time.timeScale = 0f;
+        gameObject.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        // Resume the game
+        Time.timeScale = 1f;
+        gameObject.SetActive(false);
+        controlPanel.SetActive(false);
+        volumePanel.SetActive(false);
+    }
     public void OpenCloseSettings()
     {
-        if (!isOpenSettings)
+        if (!gameObject.activeSelf)
         {
             // Pause the game
             Time.timeScale = 0f;
             gameObject.SetActive(true);
-            isOpenSettings = true;
         }
-        else
+        else  
         {
             // Resume the game
             Time.timeScale = 1f;
             gameObject.SetActive(false);
-            isOpenSettings = false;
+            controlPanel.SetActive(false);
+            volumePanel.SetActive(false);   
         }
     }
 }
