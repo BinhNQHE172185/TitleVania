@@ -136,6 +136,15 @@ public class Player : MonoBehaviour
             UpdateHP();
         }
     }
+    public void Heal(float amount)
+    {
+        RemainingHP += amount;
+        if (RemainingHP >= HP)
+        {
+            RemainingHP = HP;
+        }
+        UpdateHP();
+    }
     public void UpdateHP()
     {
         healthBarAction.UpdateHealthBar(RemainingHP, HP);

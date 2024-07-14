@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable, ITriggerAggroChec
     public bool IsAggroed { get; set; }
     public bool IsInRange { get; set; }
     public bool IsOutsideOfEdge { get; set; }
+
+    public bool IsFacingWall { get; set; }
     public bool isGrounded { get; set; }
 
     void Awake()
@@ -195,5 +197,9 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable, ITriggerAggroChec
     public void SetOutsideOfEdgeStatus(bool IsOutsideOfEdge)
     {
         this.IsOutsideOfEdge = IsOutsideOfEdge;
+    }
+    public void SetFacingWallStatus(bool IsFacingWall)
+    {
+        this.IsFacingWall = IsFacingWall;
     }
 }

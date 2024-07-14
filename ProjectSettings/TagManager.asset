@@ -24,7 +24,7 @@ TagManager:
   - Bullets
   - Interactables
   - Climb Platform
-  - 
+  - sky
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sky
+    uniqueID: 1200686053
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

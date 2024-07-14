@@ -23,10 +23,16 @@ public class EnemyEdgeCheck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        enemy.SetOutsideOfEdgeStatus(false);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            enemy.SetOutsideOfEdgeStatus(false);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        enemy.SetOutsideOfEdgeStatus(true);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            enemy.SetOutsideOfEdgeStatus(true);
+        }
     }
 }

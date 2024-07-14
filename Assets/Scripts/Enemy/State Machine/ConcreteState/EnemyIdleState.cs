@@ -35,7 +35,7 @@ public class EnemyIdleState : EnemyState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (enemy.IsOutsideOfEdge)
+        if (enemy.IsOutsideOfEdge || enemy.IsFacingWall)
         {
             enemy.moveSpeed = -enemy.moveSpeed;
             enemy.FlipEnemyFacing();

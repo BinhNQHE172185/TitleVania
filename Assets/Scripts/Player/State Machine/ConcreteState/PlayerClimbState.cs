@@ -18,7 +18,7 @@ public class PlayerClimbState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
-        player.myRigidbody.gravityScale = player.gravityScaleAtStart;
+        player.gravityScaleAtStart = player.myRigidbody.gravityScale;
         player.myRigidbody.velocity = new Vector2(player.myRigidbody.velocity.x, 0f);
         player.climbPlatform.SetActive(true);
         // Get the cell position of the tile the player is colliding with
