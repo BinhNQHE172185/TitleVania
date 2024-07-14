@@ -8,13 +8,11 @@ public class SettingMenu : MonoBehaviour
 {
     [SerializeField] private GameObject controlPanel;
     [SerializeField] private GameObject volumePanel;
-    [SerializeField] int level;
     // Method to restart the game
     public void Restart()
     {
         Time.timeScale = 1f;
-        string text = "Level " + level;
-        SceneManager.LoadScene(text);
+        SceneManager.LoadScene("Level 1");
     }
 
     // Method to return to the main menu
