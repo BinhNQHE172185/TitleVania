@@ -69,7 +69,7 @@ public class GameSession : MonoBehaviour
     // Call this method to save the high score
     void SaveHighScore(int level,int score)
     {
-        String key = "HighScoreLevel" + level;
+        String key = "HighScore";
         // Check if the new score is higher than the current high score
         if (score > PlayerPrefs.GetInt(key, 0))
         {
@@ -81,14 +81,18 @@ public class GameSession : MonoBehaviour
     // Retrieve the high score
     public int GetHighScore(int level)
     {
-        string key = "HighScoreLevel" + level;
+        string key = "HighScore";
         return PlayerPrefs.GetInt(key, 0);
     }
     private void UpdateProgressText(int level)
     {
-        String text = "Level - " + level;
+        String text="";
+        if (level > 0)
+        {
+             text = "Level - " + level+ " - ";
+        }
         highScore = GetHighScore(level);
-        progressText.text =text+ " - High Sore: " + highScore;
+        progressText.text =text+ "High Sore: " + highScore;
     }
     void ResetGameSession()
     {
