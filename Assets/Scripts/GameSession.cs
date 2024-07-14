@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Diagnostics;
-
 public class GameSession : MonoBehaviour
 {
     [SerializeField] int playerLives = 3;
     [SerializeField] int score = 0;
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI progressText;
+    private int highScore;
     LevelManager levelManager;
     public int GetScore()
     {
@@ -21,6 +21,7 @@ public class GameSession : MonoBehaviour
     {
         int numGameSessions = FindObjectsOfType<GameSession>().Length;
         levelManager = FindObjectOfType<LevelManager>();
+        UpdateProgressText();
         if (numGameSessions > 1)
         {
             Destroy(gameObject);
@@ -52,6 +53,8 @@ public class GameSession : MonoBehaviour
     public void AddToScore(int pointsToAdd)
     {
         score += pointsToAdd;
+        SaveHighScore(score);
+        UpdateProgressText();
         scoreText.text = "Score: " + score;
     }
 
@@ -62,7 +65,27 @@ public class GameSession : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex);
         livesText.text = "Lives: " + playerLives;
     }
-
+    // Call this method to save the high score
+    void SaveHighScore(int score)
+    {
+        // Check if the new score is higher than the current high score
+        if (score > PlayerPrefs.GetInt("HighScore", 0))
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save(); // Save the changes to PlayerPrefs
+            Debug.Log("New high score saved: " + score);
+        }
+    }
+    // Retrieve the high score
+    public int GetHighScore()
+    {
+        return PlayerPrefs.GetInt("HighScore", 0);
+    }
+    private void UpdateProgressText()
+    {
+        highScore = GetHighScore();
+        progressText.text = "Level 1 - High Sore: " + highScore;
+    }
     void ResetGameSession()
     {
         SceneManager.LoadScene(0);
