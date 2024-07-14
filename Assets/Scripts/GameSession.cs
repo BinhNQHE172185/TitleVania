@@ -67,7 +67,9 @@ public class GameSession : MonoBehaviour
         playerLives--;
         Debug.Log(playerLives);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
+        //SceneManager.LoadScene(currentSceneIndex);
+        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2.0f);
+
         livesText.text = "Lives: " + playerLives;
     }
     void SaveScore(int score)

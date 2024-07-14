@@ -124938,8 +124938,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 2.3604, y: 1.8417, z: 0}
-    m_Extent: {x: 0.83820003, y: 0.63259995, z: 0}
+    m_Center: {x: 2.35985, y: 1.8425, z: 0}
+    m_Extent: {x: 0.83814996, y: 0.6324, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -129130,8 +129130,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.34939992, y: -0.59300005, z: 0}
-    m_Extent: {x: 2.6827002, y: 1.5129, z: 0}
+    m_Center: {x: 0.35065007, y: -0.59345, z: 0}
+    m_Extent: {x: 2.68275, y: 1.51245, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -129893,6 +129893,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3299936093885912256, guid: b1d35aa0f4451434caf962e2fea65e6c, type: 3}
       propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299936093885912256, guid: b1d35aa0f4451434caf962e2fea65e6c, type: 3}
+      propertyPath: playerLives
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3299936093885912256, guid: b1d35aa0f4451434caf962e2fea65e6c, type: 3}

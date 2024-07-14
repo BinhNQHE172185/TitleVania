@@ -11,16 +11,21 @@ public class LevelManager : MonoBehaviour
     {
         // Resume the game
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Level 1");
+        //SceneManager.LoadScene("Level 1");
+        Initiate.Fade("Level 1", Color.black, 2.0f);
         PlayerPrefs.DeleteKey("Score");
     }
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
+        Initiate.Fade("MainMenu", Color.black, 2.0f);
+
     }
     public void LoadGameOver()
     {
-        SceneManager.LoadScene("GameOver");
+        //SceneManager.LoadScene("GameOver");
+        Initiate.Fade("GameOver", Color.black, 2.0f);
+
     }
     public void QuitGame()
     {
