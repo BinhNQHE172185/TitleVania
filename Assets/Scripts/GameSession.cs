@@ -11,7 +11,7 @@ public class GameSession : MonoBehaviour
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI progressText;
-    [SerializeField] int level=1;
+    [SerializeField] int level = 1;
     private int highScore;
     LevelManager levelManager;
     public int GetScore()
@@ -54,7 +54,8 @@ public class GameSession : MonoBehaviour
     public void AddToScore(int pointsToAdd)
     {
         score += pointsToAdd;
-        SaveHighScore(level,score);
+        SaveHighScore(level, score);
+        SaveScore(score);
         UpdateProgressText(level);
         scoreText.text = "Score: " + score;
     }
@@ -66,8 +67,14 @@ public class GameSession : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex);
         livesText.text = "Lives: " + playerLives;
     }
+    void SaveScore(int score)
+    {
+        String key = "Score";
+        PlayerPrefs.SetInt(key, score);
+        PlayerPrefs.Save(); // Save the changes to PlayerPrefs
+    }
     // Call this method to save the high score
-    void SaveHighScore(int level,int score)
+    void SaveHighScore(int level, int score)
     {
         String key = "HighScore";
         // Check if the new score is higher than the current high score
@@ -86,13 +93,13 @@ public class GameSession : MonoBehaviour
     }
     private void UpdateProgressText(int level)
     {
-        String text="";
+        String text = "";
         if (level > 0)
         {
-             text = "Level - " + level+ " - ";
+            text = "Level - " + level + " - ";
         }
         highScore = GetHighScore(level);
-        progressText.text =text+ "High Sore: " + highScore;
+        progressText.text = text + "High Sore: " + highScore;
     }
     void ResetGameSession()
     {

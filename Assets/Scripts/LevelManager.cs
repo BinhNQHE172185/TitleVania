@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
         // Resume the game
         Time.timeScale = 1f;
         SceneManager.LoadScene("Level 1");
+        PlayerPrefs.DeleteKey("Score");
     }
     public void LoadMainMenu()
     {
