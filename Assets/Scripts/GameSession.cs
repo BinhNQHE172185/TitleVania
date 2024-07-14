@@ -47,6 +47,7 @@ public class GameSession : MonoBehaviour
         }
         else
         {
+            Debug.Log(playerLives + "Reset");
             ResetGameSession();
         }
     }
@@ -62,7 +63,9 @@ public class GameSession : MonoBehaviour
 
     void TakeLife()
     {
+        Debug.Log(playerLives);
         playerLives--;
+        Debug.Log(playerLives);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
         livesText.text = "Lives: " + playerLives;
