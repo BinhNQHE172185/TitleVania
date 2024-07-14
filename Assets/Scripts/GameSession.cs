@@ -11,6 +11,7 @@ public class GameSession : MonoBehaviour
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI progressText;
+    [SerializeField] int level=1;
     private int highScore;
     LevelManager levelManager;
     public int GetScore()
@@ -21,7 +22,7 @@ public class GameSession : MonoBehaviour
     {
         int numGameSessions = FindObjectsOfType<GameSession>().Length;
         levelManager = FindObjectOfType<LevelManager>();
-        UpdateProgressText();
+        UpdateProgressText(level);
         if (numGameSessions > 1)
         {
             Destroy(gameObject);
@@ -53,8 +54,8 @@ public class GameSession : MonoBehaviour
     public void AddToScore(int pointsToAdd)
     {
         score += pointsToAdd;
-        SaveHighScore(score);
-        UpdateProgressText();
+        SaveHighScore(level,score);
+        UpdateProgressText(level);
         scoreText.text = "Score: " + score;
     }
 
@@ -66,25 +67,28 @@ public class GameSession : MonoBehaviour
         livesText.text = "Lives: " + playerLives;
     }
     // Call this method to save the high score
-    void SaveHighScore(int score)
+    void SaveHighScore(int level,int score)
     {
+        String key = "HighScoreLevel" + level;
         // Check if the new score is higher than the current high score
-        if (score > PlayerPrefs.GetInt("HighScore", 0))
+        if (score > PlayerPrefs.GetInt(key, 0))
         {
-            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.SetInt(key, score);
             PlayerPrefs.Save(); // Save the changes to PlayerPrefs
             Debug.Log("New high score saved: " + score);
         }
     }
     // Retrieve the high score
-    public int GetHighScore()
+    public int GetHighScore(int level)
     {
-        return PlayerPrefs.GetInt("HighScore", 0);
+        string key = "HighScoreLevel" + level;
+        return PlayerPrefs.GetInt(key, 0);
     }
-    private void UpdateProgressText()
+    private void UpdateProgressText(int level)
     {
-        highScore = GetHighScore();
-        progressText.text = "Level 1 - High Sore: " + highScore;
+        String text = "Level - " + level;
+        highScore = GetHighScore(level);
+        progressText.text =text+ " - High Sore: " + highScore;
     }
     void ResetGameSession()
     {
