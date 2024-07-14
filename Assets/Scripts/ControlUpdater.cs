@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 using TMPro;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class ControlUpdater : MonoBehaviour, IPointerClickHandler
 {
@@ -26,8 +27,29 @@ public class ControlUpdater : MonoBehaviour, IPointerClickHandler
     {
         action = playerControls.FindActionMap(actionMapName).FindAction(actionName);
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        if (String.IsNullOrEmpty(bindingName))
+        {
+            bindingName = "";
+        }
+        string keyPath = GetKeyPath();
+        Debug.Log(keyPath);
+        if (!String.IsNullOrEmpty(keyPath))
+        {
+            buttonText.text = keyPath;
+        }
     }
-
+    void SaveKeyPath(string keyPath)
+    {
+        String key = actionName + bindingName;
+        Debug.Log(key);
+        PlayerPrefs.SetString(key, keyPath);
+        PlayerPrefs.Save(); // Save the changes to PlayerPrefs
+    }
+    public string GetKeyPath()
+    {
+        String key = actionName + bindingName;
+        return PlayerPrefs.GetString(key, null);
+    }
     private bool CheckDuplicateBinding(InputAction action, int bindingIndex)
     {
         InputBinding newBinding = action.bindings[bindingIndex];
@@ -41,7 +63,7 @@ public class ControlUpdater : MonoBehaviour, IPointerClickHandler
             }
 
         }
-        if(count>1)return true;
+        if (count > 1) return true;
         return false;
     }
 
@@ -97,9 +119,9 @@ public class ControlUpdater : MonoBehaviour, IPointerClickHandler
                 {
                     // Extract the key from the effective path
                     string fullPath = action.bindings[bindingIndex].effectivePath;
-                    string key = fullPath.Substring(fullPath.LastIndexOf('/') + 1).ToUpper();
-
-                    buttonText.text = key;
+                    string keyPath = fullPath.Substring(fullPath.LastIndexOf('/') + 1).ToUpper();
+                    SaveKeyPath(keyPath);
+                    buttonText.text = keyPath;
                 }
                 // After rebinding, re-enable the action 
                 action.Enable();
@@ -115,7 +137,6 @@ public class ControlUpdater : MonoBehaviour, IPointerClickHandler
         int bindingIndex = -1;
         for (int i = 0; i < action.bindings.Count; i++)
         {
-            Debug.Log(action.bindings[i].action);
             if (action.bindings[i].action == action.name)
             {
                 bindingIndex = i;
@@ -148,9 +169,9 @@ public class ControlUpdater : MonoBehaviour, IPointerClickHandler
                 {
                     // Extract the key from the effective path
                     string fullPath = action.bindings[bindingIndex].effectivePath;
-                    string key = fullPath.Substring(fullPath.LastIndexOf('/') + 1).ToUpper();
-
-                    buttonText.text = key;
+                    string keyPath = fullPath.Substring(fullPath.LastIndexOf('/') + 1).ToUpper();
+                    SaveKeyPath(keyPath);
+                    buttonText.text = keyPath;
                 }
                 // After rebinding, re-enable the action 
                 action.Enable();
