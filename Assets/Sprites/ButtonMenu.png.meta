@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a946d3a76e527de4aa9b3f2e0332520c
+guid: b7be831c5ec6fb94dab690bbef244e82
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,22 +110,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sliderBackground_0
+      name: sliderBackground1_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 4
-        width: 24
-        height: 24
+        x: 16
+        y: 84
+        width: 128
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7772e1bd92a9e084fb4e7dfa87241faf
-      internalID: 923234361
+      spriteID: c521e29c9c7fbae4182f81c429de1cdc
+      internalID: -1492478158
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sliderBackground_0: 923234361
+      sliderBackground1_0: -1492478158
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
