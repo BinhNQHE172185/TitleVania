@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public Tilemap ladderTilemap { get; set; }
 
     public GameSession gameSession { get; set; }
+    AudioManager manager;
 
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
         fireState = new PlayerFireState(this, stateMachine);
         hurtState = new PlayerHurtState(this, stateMachine);
         deadState = new PlayerDeadState(this, stateMachine);
+        manager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // Start is called before the first frame update
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        manager.PlaySFX(manager.hurt);
         stateMachine.ChangeState(hurtState);
         RemainingHP -= damage;
         if (RemainingHP <= 0)
@@ -150,6 +153,7 @@ public class Player : MonoBehaviour
     }
     public void Die()
     {
+        manager.PlaySFX(manager.die);
         stateMachine.ChangeState(deadState);
     }
     public void OnFire(InputValue value)
@@ -158,16 +162,19 @@ public class Player : MonoBehaviour
     }
     public void OnMove(InputValue value)
     {
+        
         moveInput = value.Get<Vector2>();
         FlipSprite();
         stateMachine.CurrentPlayerState.OnMove(value);
     }
     public void OnJump(InputValue value)
     {
+        manager.PlaySFX(manager.jump);
         stateMachine.CurrentPlayerState.OnJump(value);
     }
     public void OnDash(InputValue value)
     {
+        manager.PlaySFX(manager.dash);
         stateMachine.CurrentPlayerState.OnDash(value);
     }
     public IEnumerator StartImmunity(float duration)
