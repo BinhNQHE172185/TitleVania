@@ -106,9 +106,10 @@ public class GameSession : MonoBehaviour
         highScore = GetHighScore(level);
         progressText.text = text + "High Sore: " + highScore;
     }*/
-    public void ResetGameSession()
+    void ResetGameSession()
     {
         SceneManager.LoadScene(0);
+        levelManager.LoadGameOver();
         Destroy(gameObject);
     }
     public void clearGameSession()
