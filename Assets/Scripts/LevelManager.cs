@@ -19,7 +19,11 @@ public class LevelManager : MonoBehaviour
     {
         // Load the scene named "menu" to go back to the main menu
         GameSession gameSession = FindObjectOfType<GameSession>();
-        gameSession.clearGameSession();
+        if (gameSession != null)
+        {
+            gameSession.clearGameSession();
+
+        }
         //SceneManager.LoadScene("MainMenu");
         Initiate.Fade("MainMenu", Color.black, 2.0f);
 
