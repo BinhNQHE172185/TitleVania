@@ -79,6 +79,7 @@ public class PlayerDeadState : PlayerState
         delayTimer += Time.deltaTime;
         if (delayTimer > ReviveDelay)
         {
+            player.getSession();
             player.gameSession.ProcessPlayerDeath();
         }
     }
