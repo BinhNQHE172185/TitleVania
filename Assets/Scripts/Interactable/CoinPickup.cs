@@ -20,6 +20,7 @@ public class CoinPickup : MonoBehaviour
     {
         if (other.tag == "Player" && !wasCollected)
         {
+            manager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
             wasCollected = true;
             FindObjectOfType<GameSession>().AddToScore(pointsForCoinPickup);
             manager.PlaySFX(manager.coin);
