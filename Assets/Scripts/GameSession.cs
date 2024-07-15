@@ -67,8 +67,8 @@ public class GameSession : MonoBehaviour
         playerLives--;
         Debug.Log(playerLives);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        //SceneManager.LoadScene(currentSceneIndex);
-        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2.0f);
+        SceneManager.LoadScene(currentSceneIndex);
+        //Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2.0f);
 
         livesText.text = "Lives: " + playerLives;
     }
@@ -108,7 +108,7 @@ public class GameSession : MonoBehaviour
     }*/
     void ResetGameSession()
     {
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
         levelManager.LoadGameOver();
         Destroy(gameObject);
     }
