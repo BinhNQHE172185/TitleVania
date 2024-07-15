@@ -114,6 +114,9 @@ public class GameSession : MonoBehaviour
     }
     public void clearGameSession()
     {
+        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
+        Destroy(scenePersist.gameObject);
+
         Destroy(gameObject);
     }
 }
