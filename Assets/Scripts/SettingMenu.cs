@@ -24,7 +24,11 @@ public class SettingMenu : MonoBehaviour
     public void MainMenu()
     {
         // Load the scene named "menu" to go back to the main menu
-        SceneManager.LoadScene("MainMenu");
+        GameSession gameSession = FindObjectOfType<GameSession>();
+        gameSession.clearGameSession();
+        CloseSettings();
+        Initiate.Fade("MainMenu", Color.black, 2.0f);
+
     }
     public void OpenSettings()
     {
