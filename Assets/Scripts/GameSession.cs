@@ -10,9 +10,9 @@ public class GameSession : MonoBehaviour
     [SerializeField] int score = 0;
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI progressText;
+/*    [SerializeField] TextMeshProUGUI progressText;*/
     [SerializeField] int level = 1;
-    private int highScore;
+/*    private int highScore;*/
     LevelManager levelManager;
     public int GetScore()
     {
@@ -22,7 +22,7 @@ public class GameSession : MonoBehaviour
     {
         int numGameSessions = FindObjectsOfType<GameSession>().Length;
         levelManager = FindObjectOfType<LevelManager>();
-        UpdateProgressText(level);
+/*        UpdateProgressText(level);*/
         if (numGameSessions > 1)
         {
             Destroy(gameObject);
@@ -57,7 +57,7 @@ public class GameSession : MonoBehaviour
         score += pointsToAdd;
         SaveHighScore(level, score);
         SaveScore(score);
-        UpdateProgressText(level);
+/*        UpdateProgressText(level);*/
         scoreText.text = "Score: " + score;
     }
 
@@ -90,13 +90,13 @@ public class GameSession : MonoBehaviour
             Debug.Log("New high score saved: " + score);
         }
     }
-    // Retrieve the high score
+/*    // Retrieve the high score
     public int GetHighScore(int level)
     {
         string key = "HighScore";
         return PlayerPrefs.GetInt(key, 0);
-    }
-    private void UpdateProgressText(int level)
+    }*/
+/*    private void UpdateProgressText(int level)
     {
         String text = "";
         if (level > 0)
@@ -105,7 +105,7 @@ public class GameSession : MonoBehaviour
         }
         highScore = GetHighScore(level);
         progressText.text = text + "High Sore: " + highScore;
-    }
+    }*/
     void ResetGameSession()
     {
         SceneManager.LoadScene(0);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro; // TextMeshPro namespace for text UI elements
@@ -9,6 +10,8 @@ public class SettingMenu : MonoBehaviour
     [SerializeField] private GameObject controlPanel;
     [SerializeField] private GameObject volumePanel;
     [SerializeField] int level;
+    [SerializeField] TextMeshProUGUI progressText;
+    private int highScore;
     // Method to restart the game
     public void Restart()
     {
@@ -41,6 +44,8 @@ public class SettingMenu : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
+            highScore=GetHighScore();
+            UpdateProgressText();
             // Pause the game
             Time.timeScale = 0f;
             gameObject.SetActive(true);
@@ -53,5 +58,21 @@ public class SettingMenu : MonoBehaviour
             controlPanel.SetActive(false);
             volumePanel.SetActive(false);   
         }
+    }
+    private void UpdateProgressText()
+    {
+        String text = "";
+        if (level > 0)
+        {
+            text = "Level - " + level + " - ";
+        }
+        highScore = GetHighScore();
+        progressText.text = text + "High Sore: " + highScore;
+    }
+    // Retrieve the high score
+    public int GetHighScore()
+    {
+        string key = "HighScore";
+        return PlayerPrefs.GetInt(key, 0);
     }
 }
