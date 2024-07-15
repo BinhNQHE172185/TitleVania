@@ -81,6 +81,7 @@ public class PlayerDeadState : PlayerState
         {
             player.getSession();
             player.gameSession.ProcessPlayerDeath();
+            ExitState();
         }
     }
 
