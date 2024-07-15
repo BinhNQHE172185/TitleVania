@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
     public float chargeTime { get; set; } = 0.5f;
     public float HP { get; set; } = 1000;
     public float RemainingHP { get; set; }
-
+    AudioManager manager;
 
     private void Awake()
     {
@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
         fireState = new PlayerFireState(this, stateMachine);
         hurtState = new PlayerHurtState(this, stateMachine);
         deadState = new PlayerDeadState(this, stateMachine);
+        manager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // Start is called before the first frame update
@@ -123,6 +124,7 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        manager.PlaySFX(manager.hurt);
         stateMachine.ChangeState(hurtState);
         RemainingHP -= damage;
         if (RemainingHP <= 0)
@@ -150,6 +152,7 @@ public class Player : MonoBehaviour
     }
     public void Die()
     {
+        manager.PlaySFX(manager.die);
         stateMachine.ChangeState(deadState);
     }
     public void OnFire(InputValue value)
@@ -164,10 +167,12 @@ public class Player : MonoBehaviour
     }
     public void OnJump(InputValue value)
     {
+        manager.PlaySFX(manager.jump);
         stateMachine.CurrentPlayerState.OnJump(value);
     }
     public void OnDash(InputValue value)
     {
+        manager.PlaySFX(manager.dash);
         stateMachine.CurrentPlayerState.OnDash(value);
     }
     public IEnumerator StartImmunity(float duration)
