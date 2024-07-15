@@ -50,6 +50,11 @@ MonoBehaviour:
   sfxSource: {fileID: 3166866729885806368}
   coin: {fileID: 8300000, guid: a1086bf2aaf10ac40a4c2e26cefd9a8e, type: 3}
   heart: {fileID: 8300000, guid: b7af5163b49e11343b124078f9bc888a, type: 3}
+  jump: {fileID: 8300000, guid: 2b1956fc92b9b234e824407f32a7c328, type: 3}
+  dash: {fileID: 8300000, guid: eb361ee85047d924bacd94d7ac5e1aeb, type: 3}
+  run: {fileID: 8300000, guid: 3f10f82389e27ba43be9f6ebe96e791d, type: 3}
+  hurt: {fileID: 8300000, guid: 0e79ec919b01b734fa8534886edf624f, type: 3}
+  die: {fileID: 8300000, guid: 79dd5d96ebea01b428d3b3751cdcb65d, type: 3}
 --- !u!1 &4779438888584185021
 GameObject:
   m_ObjectHideFlags: 0
