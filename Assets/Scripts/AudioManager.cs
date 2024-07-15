@@ -10,7 +10,10 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip coin;
     public AudioClip heart;
-    
+    public AudioClip jump;
+    public AudioClip dash;
+    public AudioClip die;
+    public AudioClip hurt;
     public void PlaySFX(AudioClip clip)
     {
         sfxSource.PlayOneShot(clip);
