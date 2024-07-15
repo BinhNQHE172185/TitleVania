@@ -11,7 +11,12 @@ public class SettingMenu : MonoBehaviour
     [SerializeField] private GameObject volumePanel;
     [SerializeField] int level;
     [SerializeField] TextMeshProUGUI progressText;
+    private GameSession gameSession;
     private int highScore;
+    private void Start()
+    {
+        gameSession = FindObjectOfType<GameSession>();
+    }
     // Method to restart the game
     public void Restart()
     {
@@ -23,8 +28,7 @@ public class SettingMenu : MonoBehaviour
     // Method to return to the main menu
     public void MainMenu()
     {
-        // Load the scene named "menu" to go back to the main menu
-        SceneManager.LoadScene("MainMenu");
+        gameSession.ResetGameSession();
     }
     public void OpenSettings()
     {
@@ -44,19 +48,19 @@ public class SettingMenu : MonoBehaviour
     {
         if (!gameObject.activeSelf)
         {
-            highScore=GetHighScore();
+            highScore = GetHighScore();
             UpdateProgressText();
             // Pause the game
             Time.timeScale = 0f;
             gameObject.SetActive(true);
         }
-        else  
+        else
         {
             // Resume the game
             Time.timeScale = 1f;
             gameObject.SetActive(false);
             controlPanel.SetActive(false);
-            volumePanel.SetActive(false);   
+            volumePanel.SetActive(false);
         }
     }
     private void UpdateProgressText()
